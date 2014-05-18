@@ -19,15 +19,17 @@ makeCacheMatrix <- function(matrix.value = matrix()) {
 ## takes the inverse of matrix 'x' from its cache if the cache is not null,
 ## otherwise calculates the inverse and sets x's cache
 
-cacheSolve <- function(x, ...) {
+cacheSolve <- function(cache.matrix, ...) {
         ## Return a matrix that is the inverse of 'x'
-    inv <- x$getinverse()
-    if(!is.null(inv)) {
+    matrix.inverse <- cache.matrix$getinverse()
+    if(!is.null(matrix.inverse)) { 
         message("getting cached data")
-        return(inv)
+        return(matrix.inverse)
     }
-    data <- x$get()
-    inv <- solve(data)
-    x$setinverse(inv)
-    inv
+    
+    ## if the cache was null, solve the matrix then update its cache
+    matrix.value <- cache.matrix$get()
+    matrix.inverse <- solve(matrix.value)
+    cache.matrix$setinverse(matrix.inverse)
+    matrix.inverse
 }
